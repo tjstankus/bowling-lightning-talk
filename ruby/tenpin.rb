@@ -106,7 +106,6 @@ class TestTenpin < Minitest::Test
 
   def test_complete_open_frame
     2.times { @game.roll(1) }
-    puts @game.frames.first.state
     assert_equal 2, @game.score
   end
 end
