@@ -6,6 +6,10 @@ class TestTenpin < Minitest::Test
     @game = Bowling::Tenpin.new
   end
 
+  def roll(pinfalls)
+    Array(pinfalls).each { |pinfall| @game.roll(pinfall) }
+  end
+
   def test_initial_score
     assert_equal @game.score, 0
   end
@@ -36,8 +40,58 @@ class TestTenpin < Minitest::Test
   end
 
   def test_complete_strike_followed_by_complete_open_frame
-    [10,1,1].each { |pinfall| @game.roll(pinfall) }
+    roll([10,1,1])
     assert_equal 14, @game.score
+  end
+
+  def test_complete_strike_followed_by_incomplete_spare
+    roll([10,5,5])
+    assert 20, @game.score
+  end
+
+  def test_complete_strike_followed_by_complete_spare
+    roll([10,5,5,1])
+    assert 31, @game.score
+  end
+
+  def test_incomplete_strike_no_bonus_rolls
+    @game.roll(10)
+    assert_equal 0, @game.score
+  end
+
+  def test_incomplete_strike_one_bonus_roll
+    roll([10,1])
+    assert_equal 0, @game.score
+  end
+
+  def test_perfect_game
+    12.times { @game.roll(10) }
+    assert_equal 300, @game.score
+  end
+
+  def test_complete_spare
+    roll([3,7,4])
+    assert_equal 14, @game.score
+  end
+
+  def test_complete_spare_followed_by_complete_open_frame
+    roll([3,7,4,1])
+    assert_equal 19, @game.score
+  end
+
+  def test_complete_spare_followed_by_strike_with_no_bonus_rolls
+    roll([3,7,10])
+    assert_equal 20, @game.score
+  end
+
+  def complete_spare_followed_by_strike_with_one_bonus_roll
+    roll([3,7,10,1])
+    assert_equal 20, @game.score
+  end
+
+  def test_all_fives
+    21.times { @game.roll(5) }
+    assert_equal 150, @game.score
   end
 end
 

@@ -19,11 +19,11 @@ module Bowling
     private
 
     def frames_handling_roll
-      Array[frame_handling_normal_roll] + frames_handling_bonus_roll
+      frame_handling_normal_roll + frames_handling_bonus_roll
     end
 
     def frame_handling_normal_roll
-      frames.detect(&:handles_normal_roll?)
+      Array(frames.detect(&:handles_normal_roll?)).compact
     end
 
     def frames_handling_bonus_roll
