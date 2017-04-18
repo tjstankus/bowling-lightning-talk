@@ -64,7 +64,7 @@ module Bowling
     end
 
     def open?
-      !strike? && !spare?
+      !strike? && !spare? && rolls_count == 2
     end
 
     def rolls_count
@@ -92,7 +92,7 @@ module Bowling
 
   class PendingState < FrameState
     def self.state_for?(frame)
-      (!frame.bonus?) || (frame.open? && frame.rolls_count < 2)
+      !frame.bonus? && !frame.open?
     end
 
     def score
@@ -110,7 +110,7 @@ module Bowling
 
   class BonusState < FrameState
     def self.state_for?(frame)
-      (frame.bonus?) && frame.rolls_count < 3
+      frame.bonus? && frame.rolls_count < 3
     end
 
     def score
@@ -128,7 +128,7 @@ module Bowling
 
   class CompleteState < FrameState
     def self.state_for?(frame)
-      ((frame.bonus?) && frame.rolls_count == 3) ||
+      (frame.bonus? && frame.rolls_count == 3) ||
         (frame.open? && frame.rolls_count == 2)
     end
 
