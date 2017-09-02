@@ -1,7 +1,7 @@
 require "forwardable"
 
 module Bowling
-  class Tenpin
+  class Game
     attr_reader :frames
 
     def initialize

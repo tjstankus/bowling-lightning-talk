@@ -1,9 +1,9 @@
-require_relative "tenpin"
+require_relative "game"
 require "minitest/autorun"
 
-class TestTenpin < Minitest::Test
+class TestGame < Minitest::Test
   def setup
-    @game = Bowling::Tenpin.new
+    @game = Bowling::Game.new
   end
 
   def roll(pinfalls)
