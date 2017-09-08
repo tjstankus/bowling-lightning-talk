@@ -56,7 +56,7 @@ module Bowling
     end
 
     def spare?
-      !strike? && rolls.take(2).sum == 10
+      !strike? && rolls.first(2).sum == 10
     end
 
     def bonus?
@@ -84,9 +84,10 @@ module Bowling
     end
 
     def transition!
-      frame.state = [BonusState, CompleteState, PendingState].detect do |klass|
-        klass.state_for?(frame)
-      end.new(frame)
+      frame.state =
+        [BonusState, CompleteState, PendingState].detect do |klass|
+          klass.state_for?(frame)
+        end.new(frame)
     end
   end
 
